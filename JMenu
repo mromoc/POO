@@ -1,0 +1,80 @@
+import java.awt.event.*;
+import javax.swing.*;
+
+
+public class MiMenu extends JMenuBar implements ActionListener{
+	String[] archivoItems = new String[] { "Nuevo", "Abrir", "Salvar", "Exit" };
+	String[] editarItems = new String[] { "Cortar", "Copiar", "Pegar" };
+	char[] archivoCortito = { 'N','A','S','E' };
+	char[] editarCortito = { 'T','C','P' };
+	/**********************/
+	/*CONSTRUCTOR*/
+	MiMenu(){
+		JMenu archivoMenu = new JMenu("Archivo");
+		JMenu editarMenu = new JMenu("Editar");
+		JMenu otroMenu = new JMenu("Otro");
+		JMenu subMenu = new JMenu("SubMenu");
+		JMenu subMenu2 = new JMenu("SubMenu2");
+	/*********************/
+		/*Crea la pestaña Archivo*/
+		for (int i=0; i < archivoItems.length; i++) {
+			JMenuItem item = new JMenuItem(archivoItems[i], archivoCortito[i]);
+			item.addActionListener(this);
+			//Agrega las pestañas y Resalta las letras N A S E(iniciales)
+			archivoMenu.add(item);
+			//Agrega al Menu las pestañas proporcionadas por el arreglo de string archivoItems.
+			}
+		/*Crea la pestaña Editar*/
+		for (int i=0; i < editarItems.length; i++) {
+			JMenuItem item = new JMenuItem(editarItems[i]);
+			item.setAccelerator(KeyStroke.getKeyStroke(editarCortito[i],java.awt.Event.CTRL_MASK, false));
+			item.addActionListener(this);
+			//Agrega las pestañas y les da un acceso directo con CONTROL + T C ó P-
+			editarMenu.add(item);
+			//Agrega al Menu las pestañas proporcionadas por el arreglo de string editaritems-
+			}
+		
+		editarMenu.insertSeparator(1);
+		
+		JMenuItem item;
+		subMenu2.add(item = new JMenuItem("Extra 2"));
+		item.addActionListener(this);
+		//Crea un submenu con menu llamado extra2
+		subMenu.add(item = new JMenuItem("Extra 1"));
+		//Crea un submenu con un menu llamado extra1
+		item.addActionListener(this);
+		subMenu.add(subMenu2);
+		//Añade submenu 2 a sub menu
+		otroMenu.add(subMenu);
+		//Añade submenu al menu otro
+		otroMenu.add(item = new JCheckBoxMenuItem("Chequear"));
+		item.addActionListener(this);
+		otroMenu.addSeparator();
+		//Añade un boton para checkear a menu otro
+		ButtonGroup buttonGroup = new ButtonGroup();
+		otroMenu.add(item = new JRadioButtonMenuItem("Radio 1"));
+		item.addActionListener(this);
+		buttonGroup.add(item);
+		otroMenu.add(item = new JRadioButtonMenuItem("Radio 2"));
+		item.addActionListener(this);
+		buttonGroup.add(item);
+		otroMenu.addSeparator();
+		otroMenu.add(item = new JMenuItem("Planta",new ImageIcon("image.gif")));
+		item.addActionListener(this);
+		// Finalmente agrega todos los menús al menubar
+		add(archivoMenu);
+		add(editarMenu);
+		add(otroMenu);
+	}
+	public void actionPerformed(ActionEvent event) {
+		System.out.println("Menu item [" + event.getActionCommand() +"] fue presionado.");
+		}
+		public static void main (String[]args){
+		JFrame frame = new JFrame("Un Simple Menu");
+		//frame.addWindowListener(new BasicWindowMonitor());
+		frame.setJMenuBar(new miMenuSimple());
+		frame.pack();
+		frame.setVisible(true);
+		}
+	
+}
